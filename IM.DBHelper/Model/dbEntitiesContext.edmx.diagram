@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="601b9ad2574f43ac943ee709f2aedee7" Name="Diagram1">
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.siteVisits" Width="1.5" PointX="0.5" PointY="3.625" />
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.Users" Width="1.5" PointX="2.375" PointY="3.625" />
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.ErrorLogs" Width="1.5" PointX="6.375" PointY="3.625" />
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.Sessions" Width="1.5" PointX="4.375" PointY="3.625" />
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.message" Width="1.5" PointX="4.375" PointY="10.375" />
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.MessageInfo" Width="1.5" PointX="6.625" PointY="7" />
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.msg_conv" Width="1.5" PointX="4.375" PointY="7.375" />
+        <AssociationConnector Association="IgorMarkivMessengerDBModel.FK_MessageInfo_message" />
+        <AssociationConnector Association="IgorMarkivMessengerDBModel.FK_MessageInfo_msg_conv" />
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.InvitationCode" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.userSettings" Width="1.5" PointX="4.625" PointY="13.125" />
+        <AssociationConnector Association="IgorMarkivMessengerDBModel.FK_userSettings_Users" />
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.Files" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.thumbnails" Width="1.5" PointX="3.75" PointY="0.75" />
+        <EntityTypeShape EntityType="IgorMarkivMessengerDBModel.FilesTags" Width="1.5" PointX="6.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

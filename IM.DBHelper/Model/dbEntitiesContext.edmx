@@ -1,0 +1,531 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище IgorMarkivMessengerDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ErrorLogs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="errorName" Type="nvarchar(max)" />
+          <Property Name="errorValue" Type="nvarchar(max)" />
+          <Property Name="errorCode" Type="nvarchar(max)" />
+          <Property Name="DateTime" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="user" Type="int" Nullable="false" />
+          <Property Name="size" Type="bigint" />
+          <Property Name="uploadDate" Type="datetime" />
+          <Property Name="expireDate" Type="datetime" />
+          <Property Name="md5" Type="nvarchar" MaxLength="50" />
+          <Property Name="guid" Type="nvarchar" MaxLength="50" />
+          <Property Name="rout" Type="nvarchar" MaxLength="50" />
+          <Property Name="type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FilesTags">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fileId" Type="int" Nullable="false" />
+          <Property Name="tag" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvitationCode">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="used" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="messageBody" Type="nvarchar(max)" />
+          <Property Name="messageSalt" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="MessageInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="convId" Type="int" Nullable="false" />
+          <Property Name="messageBodyId" Type="int" Nullable="false" />
+          <Property Name="time" Type="datetime" />
+          <Property Name="changed" Type="bit" />
+          <Property Name="isUser1" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="msg_conv">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user1" Type="int" />
+          <Property Name="user2" Type="int" />
+        </EntityType>
+        <EntityType Name="Sessions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="sessionKey" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="lastActivity" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="siteVisits">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="VisiteTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="isSession" Type="bit" Nullable="false" />
+          <Property Name="Session" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="thumbnails">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fileId" Type="int" Nullable="false" />
+          <Property Name="key" Type="binary" MaxLength="32" />
+          <Property Name="iv" Type="binary" MaxLength="16" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="userEmail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="lastLogin" Type="datetime" Nullable="false" />
+          <Property Name="invalidLogin" Type="int" Nullable="false" />
+          <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="salt" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="role" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userSettings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="fileTableView" Type="bit" />
+        </EntityType>
+        <Association Name="FK_MessageInfo_message">
+          <End Role="message" Type="Self.message" Multiplicity="1" />
+          <End Role="MessageInfo" Type="Self.MessageInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="message">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MessageInfo">
+              <PropertyRef Name="messageBodyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MessageInfo_msg_conv">
+          <End Role="msg_conv" Type="Self.msg_conv" Multiplicity="1" />
+          <End Role="MessageInfo" Type="Self.MessageInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msg_conv">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MessageInfo">
+              <PropertyRef Name="convId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_userSettings_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="userSettings" Type="Self.userSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="userSettings">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище IgorMarkivMessengerDBModelContainer">
+          <EntitySet Name="ErrorLogs" EntityType="Self.ErrorLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FilesTags" EntityType="Self.FilesTags" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvitationCode" EntityType="Self.InvitationCode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="message" EntityType="Self.message" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MessageInfo" EntityType="Self.MessageInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="msg_conv" EntityType="Self.msg_conv" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sessions" EntityType="Self.Sessions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="siteVisits" EntityType="Self.siteVisits" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="thumbnails" EntityType="Self.thumbnails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userSettings" EntityType="Self.userSettings" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_MessageInfo_message" Association="Self.FK_MessageInfo_message">
+            <End Role="message" EntitySet="message" />
+            <End Role="MessageInfo" EntitySet="MessageInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MessageInfo_msg_conv" Association="Self.FK_MessageInfo_msg_conv">
+            <End Role="msg_conv" EntitySet="msg_conv" />
+            <End Role="MessageInfo" EntitySet="MessageInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_userSettings_Users" Association="Self.FK_userSettings_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="userSettings" EntitySet="userSettings" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="IgorMarkivMessengerDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="IgorMarkivMessengerDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="siteVisits" EntityType="IgorMarkivMessengerDBModel.siteVisits" />
+          <EntitySet Name="Users" EntityType="IgorMarkivMessengerDBModel.Users" />
+          <EntitySet Name="ErrorLogs" EntityType="IgorMarkivMessengerDBModel.ErrorLogs" />
+          <EntitySet Name="Sessions" EntityType="IgorMarkivMessengerDBModel.Sessions" />
+          <EntitySet Name="message" EntityType="IgorMarkivMessengerDBModel.message" />
+          <EntitySet Name="MessageInfo" EntityType="IgorMarkivMessengerDBModel.MessageInfo" />
+          <EntitySet Name="msg_conv" EntityType="IgorMarkivMessengerDBModel.msg_conv" />
+          <AssociationSet Name="FK_MessageInfo_message" Association="IgorMarkivMessengerDBModel.FK_MessageInfo_message">
+            <End Role="message" EntitySet="message" />
+            <End Role="MessageInfo" EntitySet="MessageInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MessageInfo_msg_conv" Association="IgorMarkivMessengerDBModel.FK_MessageInfo_msg_conv">
+            <End Role="msg_conv" EntitySet="msg_conv" />
+            <End Role="MessageInfo" EntitySet="MessageInfo" />
+          </AssociationSet>
+          <EntitySet Name="InvitationCode" EntityType="IgorMarkivMessengerDBModel.InvitationCode" />
+          <EntitySet Name="userSettings" EntityType="IgorMarkivMessengerDBModel.userSettings" />
+          <AssociationSet Name="FK_userSettings_Users" Association="IgorMarkivMessengerDBModel.FK_userSettings_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="userSettings" EntitySet="userSettings" />
+          </AssociationSet>
+          <EntitySet Name="Files" EntityType="IgorMarkivMessengerDBModel.Files" />
+          <EntitySet Name="thumbnails" EntityType="IgorMarkivMessengerDBModel.thumbnails" />
+          <EntitySet Name="FilesTags" EntityType="IgorMarkivMessengerDBModel.FilesTags" />
+        </EntityContainer>
+        <EntityType Name="siteVisits">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="isSession" Type="Boolean" Nullable="false" />
+          <Property Name="Session" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VisiteTime" Type="DateTime" Nullable="false" Precision="7" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="userName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userEmail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lastLogin" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="invalidLogin" Type="Int32" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="salt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="role" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="userSettings" Relationship="IgorMarkivMessengerDBModel.FK_userSettings_Users" FromRole="Users" ToRole="userSettings" />
+        </EntityType>
+        <EntityType Name="ErrorLogs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="errorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="errorValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="errorCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DateTime" Type="DateTime" Precision="7" />
+        </EntityType>
+        <EntityType Name="Sessions">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="sessionKey" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="lastActivity" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="messageBody" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="messageSalt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MessageInfo" Relationship="IgorMarkivMessengerDBModel.FK_MessageInfo_message" FromRole="message" ToRole="MessageInfo" />
+        </EntityType>
+        <EntityType Name="MessageInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="convId" Type="Int32" Nullable="false" />
+          <Property Name="messageBodyId" Type="Int32" Nullable="false" />
+          <Property Name="time" Type="DateTime" Precision="3" />
+          <Property Name="changed" Type="Boolean" />
+          <Property Name="isUser1" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="message" Relationship="IgorMarkivMessengerDBModel.FK_MessageInfo_message" FromRole="MessageInfo" ToRole="message" />
+          <NavigationProperty Name="msg_conv" Relationship="IgorMarkivMessengerDBModel.FK_MessageInfo_msg_conv" FromRole="MessageInfo" ToRole="msg_conv" />
+        </EntityType>
+        <EntityType Name="msg_conv">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user1" Type="Int32" />
+          <Property Name="user2" Type="Int32" />
+          <NavigationProperty Name="MessageInfo" Relationship="IgorMarkivMessengerDBModel.FK_MessageInfo_msg_conv" FromRole="msg_conv" ToRole="MessageInfo" />
+        </EntityType>
+        <Association Name="FK_MessageInfo_message">
+          <End Type="IgorMarkivMessengerDBModel.message" Role="message" Multiplicity="1" />
+          <End Type="IgorMarkivMessengerDBModel.MessageInfo" Role="MessageInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="message">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MessageInfo">
+              <PropertyRef Name="messageBodyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MessageInfo_msg_conv">
+          <End Type="IgorMarkivMessengerDBModel.msg_conv" Role="msg_conv" Multiplicity="1" />
+          <End Type="IgorMarkivMessengerDBModel.MessageInfo" Role="MessageInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="msg_conv">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="MessageInfo">
+              <PropertyRef Name="convId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="InvitationCode">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="used" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userSettings">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="fileTableView" Type="Boolean" />
+          <NavigationProperty Name="Users" Relationship="IgorMarkivMessengerDBModel.FK_userSettings_Users" FromRole="userSettings" ToRole="Users" />
+        </EntityType>
+        <Association Name="FK_userSettings_Users">
+          <End Type="IgorMarkivMessengerDBModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="IgorMarkivMessengerDBModel.userSettings" Role="userSettings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="userSettings">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="user" Type="Int32" Nullable="false" />
+          <Property Name="size" Type="Int64" />
+          <Property Name="uploadDate" Type="DateTime" Precision="3" />
+          <Property Name="expireDate" Type="DateTime" Precision="3" />
+          <Property Name="md5" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="guid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="rout" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="thumbnails">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fileId" Type="Int32" Nullable="false" />
+          <Property Name="key" Type="Binary" MaxLength="32" FixedLength="true" />
+          <Property Name="iv" Type="Binary" MaxLength="16" FixedLength="true" />
+        </EntityType>
+        <EntityType Name="FilesTags">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fileId" Type="Int32" Nullable="false" />
+          <Property Name="tag" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище IgorMarkivMessengerDBModelContainer" CdmEntityContainer="IgorMarkivMessengerDBEntities">
+          <EntitySetMapping Name="siteVisits">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.siteVisits">
+              <MappingFragment StoreEntitySet="siteVisits">
+                <ScalarProperty Name="VisiteTime" ColumnName="VisiteTime" />
+                <ScalarProperty Name="Session" ColumnName="Session" />
+                <ScalarProperty Name="isSession" ColumnName="isSession" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="salt" ColumnName="salt" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="invalidLogin" ColumnName="invalidLogin" />
+                <ScalarProperty Name="lastLogin" ColumnName="lastLogin" />
+                <ScalarProperty Name="userEmail" ColumnName="userEmail" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ErrorLogs">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.ErrorLogs">
+              <MappingFragment StoreEntitySet="ErrorLogs">
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+                <ScalarProperty Name="errorCode" ColumnName="errorCode" />
+                <ScalarProperty Name="errorValue" ColumnName="errorValue" />
+                <ScalarProperty Name="errorName" ColumnName="errorName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sessions">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.Sessions">
+              <MappingFragment StoreEntitySet="Sessions">
+                <ScalarProperty Name="lastActivity" ColumnName="lastActivity" />
+                <ScalarProperty Name="sessionKey" ColumnName="sessionKey" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="message">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.message">
+              <MappingFragment StoreEntitySet="message">
+                <ScalarProperty Name="messageSalt" ColumnName="messageSalt" />
+                <ScalarProperty Name="messageBody" ColumnName="messageBody" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MessageInfo">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.MessageInfo">
+              <MappingFragment StoreEntitySet="MessageInfo">
+                <ScalarProperty Name="isUser1" ColumnName="isUser1" />
+                <ScalarProperty Name="changed" ColumnName="changed" />
+                <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="messageBodyId" ColumnName="messageBodyId" />
+                <ScalarProperty Name="convId" ColumnName="convId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="msg_conv">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.msg_conv">
+              <MappingFragment StoreEntitySet="msg_conv">
+                <ScalarProperty Name="user2" ColumnName="user2" />
+                <ScalarProperty Name="user1" ColumnName="user1" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvitationCode">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.InvitationCode">
+              <MappingFragment StoreEntitySet="InvitationCode">
+                <ScalarProperty Name="used" ColumnName="used" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userSettings">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.userSettings">
+              <MappingFragment StoreEntitySet="userSettings">
+                <ScalarProperty Name="fileTableView" ColumnName="fileTableView" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Files">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.Files">
+              <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="rout" ColumnName="rout" />
+                <ScalarProperty Name="guid" ColumnName="guid" />
+                <ScalarProperty Name="md5" ColumnName="md5" />
+                <ScalarProperty Name="expireDate" ColumnName="expireDate" />
+                <ScalarProperty Name="uploadDate" ColumnName="uploadDate" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="user" ColumnName="user" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="thumbnails">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.thumbnails">
+              <MappingFragment StoreEntitySet="thumbnails">
+                <ScalarProperty Name="iv" ColumnName="iv" />
+                <ScalarProperty Name="key" ColumnName="key" />
+                <ScalarProperty Name="fileId" ColumnName="fileId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FilesTags">
+            <EntityTypeMapping TypeName="IgorMarkivMessengerDBModel.FilesTags">
+              <MappingFragment StoreEntitySet="FilesTags">
+                <ScalarProperty Name="tag" ColumnName="tag" />
+                <ScalarProperty Name="fileId" ColumnName="fileId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
